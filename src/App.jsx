@@ -14,30 +14,31 @@ function App() {
     };
 
     fetchData();
-  }, []); // UseEffect ejecutado solo al montar el componente para obtener la ubicación.
+  }, []);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      if (lat !== null && long !== null) {
+    const fetchWeatherData = () => {
         try {
-          const response = await fetch(
+          const response = fetch(
             `https://api.openweathermap.org/data/2.5/weather/?lat=${lat}&lon=${long}&units=metric&APPID=031beae55ff3dbd5a4df412f14564e69`
           );
-          const result = await response.json();
+          const result = response.json();
           setData(result);
-          console.log(result);
         } catch (error) {
           console.error("Error fetching weather data:", error);
         }
-      }
+      
     };
 
     fetchWeatherData();
   }, [lat, long]);
 
   return (
-    <div className="App">
-      {/* Renderiza la información del clima aquí */}
+    <div className="bg-slate-900 h-screen flex justify-center items-center">
+      <div className="bg-green-500 h-[200px] w-[500px] rounded-2xl text-white font-bold text-center">
+        <h1 className="text-xl bg-slate-700 rounded-t-2xl p-3">Clima en <span className="text-blue-300">{data ? `${data?.name}` : "Salta"}</span></h1>
+        <p className="text-9xl">{data ? `Temperatura: ${data?.main.temp}°C` : "20°C"}</p>
+      </div>
     </div>
   );
 }
